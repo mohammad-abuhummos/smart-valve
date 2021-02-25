@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "573979646251",
+    "firebase_url": "https://fiveh2o-dc5cc-default-rtdb.firebaseio.com",
+    "project_id": "fiveh2o-dc5cc",
+    "storage_bucket": "fiveh2o-dc5cc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:573979646251:android:1d61d5c8108f19c0c9cd6e",
+        "android_client_info": {
+          "package_name": "com.smartvalve"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "573979646251-re1b5enju6cjp0mj4tno7ppg5ahheqvd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0WyVw0swlCjC75QlA-Uqihu-SWpNVhzU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "573979646251-re1b5enju6cjp0mj4tno7ppg5ahheqvd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
