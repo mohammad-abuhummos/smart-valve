@@ -15,7 +15,6 @@ import {
   Text,
   StatusBar,
 } from 'react-native';
-
 import {
   Header,
   LearnMoreLinks,
@@ -23,92 +22,47 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-
-const App: () => React$Node = () => {
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import {NavigationContainer} from '@react-navigation/native';
+import HomeScreen from './screens/Home';
+import LogsScreen from './screens/Logs';
+import WifiScreen from './screens/Wifi';
+const Drawer = createDrawerNavigator();
+const App = () => {
   return (
     <>
       <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
+      <NavigationContainer>
+        <Drawer.Navigator
+          initialRouteName="Home"
+          screenOptions={{
+            headerShown: true,
+            headerStyle: {backgroundColor: '#00BECA'},
+            headerTitleStyle: {color: '#fff'},
+            headerTintColor: '#fff',
+          }}
+          drawerContentOptions={{
+            activeBackgroundColor: '#fff',
+            activeTintColor: '#00BECA',
+            labelStyle: {
+              fontWeight: 'bold',
+              fontSize: 17,
+            },
+            inactiveTintColor: '#fff',
+          }}
+          labelStyle={{fontWeight: 'bold', color: '#fff'}}
+          drawerStyle={{
+            backgroundColor: 'rgba(0, 190,202, 0.9)',
+            width: 240,
+            paddingTop: '10%',
+          }}>
+          <Drawer.Screen name="Home" component={HomeScreen} />
+          <Drawer.Screen name="History" component={LogsScreen} />
+          <Drawer.Screen name="Wifi  Connect" component={WifiScreen} />
+        </Drawer.Navigator>
+      </NavigationContainer>
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
-});
 
 export default App;
