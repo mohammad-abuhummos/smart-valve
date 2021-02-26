@@ -21,10 +21,27 @@ import RenderCard from '../components/RenderCarde';
 import database from '@react-native-firebase/database';
 import LogsCard from '../components/LogsCarde';
 
-
 export default function LogsScreen() {
   const [logs, setLogs] = React.useState(null);
+  const [role, setRole] = React.useState(true);
   React.useEffect(() => {
+    database()
+    .ref(`/role/`)
+    .set({
+      role: role,
+    })
+    .then(() => console.log('Data set.'));
+  }, [role]);
+  React.useEffect(() => {
+    database()
+      .ref('/role/role')
+      .on('value', (snapshot) => {
+        setRole(snapshot.val())
+        console.log('Role----: ', snapshot.val());
+      });
+  }, []);
+  React.useEffect(() => {
+    console.log("role",role)
     database()
       .ref('/logs/')
       .on('value', (snapshot) => {
@@ -93,28 +110,22 @@ export default function LogsScreen() {
   let RenderLogs = () => {
     var obj = Object.entries(logs).map(([key, value]) => {
       return (
-        <LogsCard 
-        key={key}
-        date={convert(key)}
-        fr={value.flowRate}
-        cfr={value.flowMilliLitres}
-        tq={value.totalLitres}
-        
+        <LogsCard
+          key={key}
+          date={convert(key)}
+          fr={value.flowRate}
+          cfr={value.flowMilliLitres}
+          tq={value.totalLitres}
         />
-
       );
     });
     return obj;
   };
-  const Clear =async () => {
+  const Clear = async () => {
     try {
-      await database()
-    .ref('/logs')
-    .remove();
-    } catch (error) {
-      
-    }
-  }
+      await database().ref('/logs').remove();
+    } catch (error) {}
+  };
   return (
     <SafeAreaView>
       <ScrollView
@@ -122,8 +133,44 @@ export default function LogsScreen() {
         style={styles.scrollView}>
         <View style={styles.body}>
           <View style={styles.sectionContainer}>
-              <Button title="Clear" color="#00BECA" onPress={() =>{Clear()}}/>
-            {!!logs ? RenderLogs():<Text style={{fontWeight:"bold",textAlign:"center",fontSize:20}}>No history to show</Text>}
+            <View
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                flexDirection: 'row',
+              }}>
+              <Button
+                title={!!role ? "stop notifications":"Notify me"}
+                color="#00BECA"
+                onPress={() => {
+                  if (!!role) {
+                    setRole(false);
+                  }else{
+                    setRole(true);
+                  }
+                }}
+              />
+              <Button
+                title="Clear"
+                color="#00BECA"
+                onPress={() => {
+                  Clear();
+                }}
+              />
+            </View>
+            {!!logs ? (
+              RenderLogs()
+            ) : (
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  textAlign: 'center',
+                  fontSize: 20,
+                  paddingTop: 10,
+                }}>
+                No history to show
+              </Text>
+            )}
           </View>
         </View>
       </ScrollView>
