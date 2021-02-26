@@ -27,8 +27,24 @@ import {NavigationContainer} from '@react-navigation/native';
 import HomeScreen from './screens/Home';
 import LogsScreen from './screens/Logs';
 import WifiScreen from './screens/Wifi';
+import messaging from '@react-native-firebase/messaging';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const Drawer = createDrawerNavigator();
 const App = () => {
+  React.useEffect(() => {
+    getFcmToken();
+  }, []);
+  const getFcmToken = async () => {
+    let fcmToken = await AsyncStorage.getItem('fcmToken');
+    if (!fcmToken) {
+      fcmToken = await messaging().getToken();
+      if (fcmToken) {
+        await AsyncStorage.setItem('fcmToken', fcmToken);
+      }
+    }
+  
+  };
   return (
     <>
       <StatusBar barStyle="dark-content" />
